@@ -1,0 +1,69 @@
+version: 2
+jobs:
+  build:
+    working_directory: ~/giddy-api
+    docker:
+      - image: circleci/ruby:2.4-node
+        environment:
+          PGHOST: 127.0.0.1
+          PGUSER: giddy-api
+          RAILS_ENV: test
+      - image: circleci/postgres:9.5-alpine
+        environment:
+          POSTGRES_USER: giddy-api
+          POSTGRES_DB: giddy
+          POSTGRES_PASSWORD: ""
+    steps:
+      - checkout
+
+      - type: cache-restore
+        name: Restore bundle cache
+        key: giddy-bundle-{{ checksum "Gemfile.lock" }}
+
+      # Only necessary if app uses webpacker or yarn in some other way
+      - type: cache-restore
+        name: Restore yarn cache
+        key: giddy-yarn-{{ checksum "yarn.lock" }}
+
+      - run:
+          name: Bundle Install
+          command: bin/bundle install --path vendor/bundle
+
+      # Only necessary if app uses webpacker or yarn in some other way
+      - run:
+          name: Yarn Install
+          command: yarn install
+
+      - type: cache-save
+        name: Store bundle cache
+        key: giddy-bundle-{{ checksum "Gemfile.lock" }}
+        paths:
+          - vendor/bundle
+
+      # Only necessary if app uses webpacker or yarn in some other way
+      - type: cache-save
+        name: Store yarn cache
+        key: giddy-yarn-{{ checksum "yarn.lock" }}
+        paths:
+          - ~/.yarn-cache
+
+      - run:
+          name: Wait for DB
+          command: dockerize -wait tcp://localhost:5432 -timeout 1m
+
+      - run:
+          name: Database setup
+          command: bin/rails db:schema:load --trace
+
+      # Run rspec in parallel
+      - type: shell
+        command: |
+          bundle exec rspec --profile 10 \
+                            --format RspecJunitFormatter \
+                            --out /tmp/test-results/rspec.xml \
+                            --format progress \
+                            $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
+
+      # Save artifacts
+      - type: store_test_results
+        path: /tmp/test-results
