@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class Api::V1::ActivitiesController < ApplicationController
+class Api::V1::ActivitiesController < Api::V1::BaseController
   before_action :authenticate_user
   before_action :set_activity, only: %i[show update destroy]
 
