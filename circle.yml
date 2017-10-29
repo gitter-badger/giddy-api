@@ -6,7 +6,7 @@ jobs:
       - image: circleci/ruby:2.4-node
         environment:
           PGHOST: 127.0.0.1
-          PGUSER: giddy-api
+          PGUSER: postgres
           RAILS_ENV: test
       - image: circleci/postgres:9.5-alpine
         environment:
@@ -54,16 +54,6 @@ jobs:
       - run:
           name: Database setup
           command: bin/rails db:schema:load --trace
-
-      # Run rspec in parallel
+      
       - type: shell
-        command: |
-          bundle exec rspec --profile 10 \
-                            --format RspecJunitFormatter \
-                            --out /tmp/test-results/rspec.xml \
-                            --format progress \
-                            $(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)
-
-      # Save artifacts
-      - type: store_test_results
-        path: /tmp/test-results
+        command: bundle exec rspec
