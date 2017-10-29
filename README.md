@@ -4,15 +4,11 @@
 
 Giddy API
 ======
-**Giddy** live [here](https://giddy-48ee2.firebaseapp.com/)
+**Giddy** not live yet!
 
-#### Mobile Apps
-<!-- edit this image location -->
-[![Get it on Google Play](https://raw.github.com/repat/README-template/master/googleplay.png)](https://play.google.com/store/apps/details?id=com.package.path)
+## Install git hooks
 
-<!-- edit this image location -->
-[![Download on the AppStore](https://raw.github.com/repat/README-template/master/appstore.png)](https://itunes.apple.com/app/id123456)
-
+        cp .hooks/pre-commit.sample .git/hooks/pre-commit
 ## Setup
 
         bundle install
@@ -21,10 +17,3 @@ Giddy API
 
 ### Contributors on GitHub
 * [Contributors](https://github.com/giddy/giddy-api/graphs/contributors)
-
-
-## License
-* see [LICENSE](https://github.com/giddy/giddy-api/blob/master/LICENSE.md) file
-
-## Version
-* Version 1.0

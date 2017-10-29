@@ -1,0 +1,20 @@
+#!/bin/bash
+
+# Stash unstaged changes before running tests
+git stash -q --keep-index
+
+# Run tests
+RUN_TESTS_CMD='bundle exec rspec'
+NUM_FAILS=`${RUN_TESTS_CMD} --format=progress | grep "example"| grep "fail"| awk {'print $3'}`
+
+# Unstash
+git stash pop -q
+
+if [ $NUM_FAILS -ne 0 ]
+then
+	echo -e "Can't commit! You've broken $NUM_FAILS tests!!!"
+	exit 1
+else
+	echo -e "All tests passed. You didn't broke anything. Congrats!\n"
+	exit 0
+fi
