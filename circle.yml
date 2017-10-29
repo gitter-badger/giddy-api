@@ -10,8 +10,8 @@ jobs:
           RAILS_ENV: test
       - image: circleci/postgres:9.5-alpine
         environment:
-          POSTGRES_USER: giddy-api
-          POSTGRES_DB: giddy
+          POSTGRES_USER: postgres
+          POSTGRES_DB: giddy_test
           POSTGRES_PASSWORD: ""
     steps:
       - checkout
