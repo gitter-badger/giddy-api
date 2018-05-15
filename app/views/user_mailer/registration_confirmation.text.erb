@@ -1,7 +1,0 @@
-Hi <%= @user.name %>,
-
-Thanks for registering! To confirm your registration click the URL below.
-
-<%= link_to("#{@web_app_url}/user/confirmation/#{@user.confirm_token}", "#{@web_app_url}/register/confirmation/#{@user.confirm_token}")%>
-
-Giddy team

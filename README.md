@@ -1,22 +1,61 @@
-[![CircleCI](https://circleci.com/gh/giddy/giddy-web.svg?style=svg)](https://circleci.com/gh/giddy/giddy-web)
+# giddy-web
 
-Giddy Web
-======
-**Giddy** not live yet.
+This project is powered by [Amber Framework](https://amberframework.org/).
 
-## Setup
-1. Install **ruby**, **bundler**, **rails** and **postgresql**. ([check tutorial](https://gorails.com/setup))
-2. Install dependencies.
+## Installation
 
-        bundle install
+1. [Install required dependencies](https://github.com/amberframework/online-docs/blob/master/getting-started/quickstart/zero-to-deploy.md#install-crystal-and-amber)
+2. Run `shards install`
 
-3. Setup database.
+## Usage
 
-        rails db:setup
+To setup your database edit `database_url` inside `config/environments/development.yml` file.
 
-4. Start hacking.
+To edit your production settings use `amber encrypt`. [See encrypt command guide](https://github.com/amberframework/online-docs/blob/master/getting-started/cli/encrypt.md#encrypt-command)
 
-        rails s
+To run amber server in a **development** enviroment:
 
-### Contributors on GitHub
-* [Contributors](https://github.com/giddy/giddy-api/graphs/contributors)
+```
+amber db create migrate
+amber watch
+```
+
+To build and run a **production** release:
+
+1. Add an environment variable `AMBER_ENV` with a value of `production`
+2. Run these commands (Note using `--release` is optional and may take a long time):
+
+```
+npm run release
+amber db create migrate
+shards build --production --release
+./bin/giddy-web
+```
+
+## Docker Compose
+
+To set up the database and launch the server:
+
+```
+docker-compose up -d
+```
+
+To view the logs:
+
+```
+docker-compose logs -f
+```
+
+> **Note:** The Docker images are compatible with Heroku.
+
+## Contributing
+
+1. Fork it ( https://github.com/your-github-user/giddy-web/fork )
+2. Create your feature branch (git checkout -b my-new-feature)
+3. Commit your changes (git commit -am 'Add some feature')
+4. Push to the branch (git push origin my-new-feature)
+5. Create a new Pull Request
+
+## Contributors
+
+- [your-github-user](https://github.com/your-github-user) Robert - creator, maintainer
