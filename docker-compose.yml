@@ -15,7 +15,7 @@ services:
       - redis
     environment:
       - CORS_ORIGIN=http://localhost:3000,http://localhost:3001
-      - DATABASE_URL=postgres://postgres@db:5432/dev
+      - DATABASE_URL=postgres://postgres@db:5432/giddy-dev
       - DATABASE_DEBUG=false
       - REDIS_URL=redis://redis:6379/0
       - SESSION_SECRET=wZjwhFtzQsd7r87W6AZw45Sm
@@ -43,7 +43,7 @@ services:
       - ./.prettierrc:/usr/src/app/.prettierrc
       - ./package.json:/usr/src/app/package.json
       - ./yarn.lock:/usr/src/app/yarn.lock
-    command: node tools/run.js # or, `node --inspect=0.0.0.0:9229 tools/run.js`
+    command: node --inspect=0.0.0.0:9229 tools/run.js
 
   # SQL and document data store
   db:
